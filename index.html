@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>S40Dictionary</title>
+    <link href="s40-theme/css/s40-theme.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript" src="s40-theme/js/screensize.js"></script>
+    <!-- My Script - Load Meaning and Other Functions -->
+    <script type="text/javascript">		
+    
+        function refreshPageContent() 
+          {
+				// Add code for refreshing te page here...				
+          }
+
+        function getJSONP(url, success) 
+
+        {
+
+           var ud = '_' + +new Date,
+           script = document.createElement('script'),
+           head = document.getElementsByTagName('head')[0] 
+           || document.documentElement;
+
+           window[ud] = function(data) {
+            head.removeChild(script);
+            success && success(data);
+        };
+
+            script.src = url.replace('callback=?', 'callback=' + ud);
+            head.appendChild(script);
+        }
+
+        function clearMe()
+        {
+            document.getElementById('meaning').innerHTML='';
+        }
+    try{
+        function loadMeaning()
+         {
+            clearMe();
+            var word=document.getElementById('wordID').value;
+            getJSONP('http://words.bighugelabs.com/api/2/523950e1c999f495183c290d0eeb5c34/'+word+'/json&callback=?', function(data){console.log(data); var json=data;
+                if ( json.noun.syn[0]!=null)
+                { 
+                var synCount=json.noun.syn.length;
+                var Target=document.getElementById('meaning');            
+                    for(var i = 0;i <synCount;i++)
+                    {
+                        var newList=document.createElement('li');
+                        newList.innerHTML=json.noun.syn[i];
+                        Target.appendChild(newList);                        
+                    }
+                }
+                else
+                alert('No Synonym Found');
+            })        
+        
+         }
+        }
+        catch(e)
+        {
+            var Target=document.getElementById('meaning');
+            var newList=document.createElement('li');
+            newList.innerHTML='No Synonym Found';
+            Target.appendChild(newList);    
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="s40-theme/css/s40-theme_text_field.css" />
+    <link rel="stylesheet" type="text/css" href="s40-theme/css/s40-theme_button.css" />
+    <link rel="stylesheet" type="text/css" href="s40-theme/css/s40-theme_list.css" />	
+    
+</head>
+
+<body>
+    <div class="ui-page">
+        <!-- header -->
+        <div class="ui-header">
+       <center> 
+           <div class="ui-title inline" style="margin-top:-0px;"><h2>Noun Look Up</h2></div>
+       </center>
+       </div>
+       <div class="ui-content" style="margin-top:-0px;">
+       <br><center>  Enter the noun</center>
+      
+    </div>
+</div>
+<!-- text-field -->
+<div align="center" class="ui-fieldset_S40textfield">
+  <input id="wordID" class="ui-text-input_S40textfield" name="name" type="text" />		
+</div>
+<div align='center' ><button onclick="loadMeaning()" class="ui-button_S40button" name="button1">Search</button></div>
+<div align="center"><ul id="meaning">
+
+</ul></div>
+
+</body>
+</html>

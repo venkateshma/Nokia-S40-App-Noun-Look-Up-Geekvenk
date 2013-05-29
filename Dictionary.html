@@ -1,0 +1,79 @@
+<html>
+
+
+<script>
+
+function getJSONP(url, success) {
+
+    var ud = '_' + +new Date,
+        script = document.createElement('script'),
+        head = document.getElementsByTagName('head')[0] 
+               || document.documentElement
+;
+    window[ud] = function(data) {
+        head.removeChild(script);
+        success && success(data);
+    };
+
+    script.src = url.replace('callback=?', 'callback=' + ud);
+    head.appendChild(script);
+
+}
+
+//; 
+
+    // function loadJSON(url)
+    // {
+    //     var headID = document.getElementsByTagName("head")[0];
+    //     var newScript = document.createElement('script');
+    //     newScript.type = 'text/javascript';
+    //     newScript.src = url;
+    //     headID.appendChild(newScript);        
+    // }
+
+    function loadMeaning()
+    {
+        var word=document.getElementById('wordID').value;
+        getJSONP('http://words.bighugelabs.com/api/2/523950e1c999f495183c290d0eeb5c34/'+word+'/json&callback=?', function(data){console.log(data); var json=data;
+            if ( json.noun.syn[0]!=null)
+            { 
+            //alert(json.noun.syn[0]);
+            //alert(json.noun.syn.length);
+            var synCount=json.noun.syn.length;
+            var Target=document.getElementById('meaning');
+            
+            for(var i = 0;i <synCount;i++)
+            {
+                var newList=document.createElement('li');
+                newList.innerHTML=json.noun.syn[i];
+                Target.appendChild(newList);
+                // alert(newList.innerHTML);
+                // alert(json.noun.syn[i]);
+            }
+            }
+            else
+                alert(json.adjective.syn[0])
+        })
+        
+        // loadJSON('http://words.bighugelabs.com/api/2/523950e1c999f495183c290d0eeb5c34/'+word+'/json?jsonp=processJSON');    
+    }
+
+    // function processJSON(json)
+    // {
+    //     var evaluated = eval(json);
+    //     alert(evaluated.noun.syn[0]);
+    // }
+
+</script>
+
+
+<body>
+    <input type="text" id="wordID"/>
+    <input type="button" onClick="loadMeaning()" value="Meaning" />
+    <ul id="meaning">
+
+    </ul>
+</body>
+
+
+</html>

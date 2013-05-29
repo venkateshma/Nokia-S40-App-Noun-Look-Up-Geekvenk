@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <widget xmlns="http://www.w3.org/ns/widgets" height="200" id="http://NounLookUp" version="1.5.0" viewmodes="windowed fullscreen" width="200">
+    
+    <name short="Noun Look Up">Noun Look Up</name>    
+
+    <description>Get meanings for all nouns.</description>
+    
+    <!---->    
+    <author email="support.geekvenk@outlook.com" href="">Geekvenk</author>
+    
+    <icon src="icon.png"/>
+
+    <content src="index.html"/>
+    
+    <license>GNU GPL 2013.</license>
+    
+   	<feature name="nokia://s40.nokia.com/SAWRT/2.3" required="true" />
+</widget>
